@@ -16,6 +16,8 @@
 
 	<properties>
 		<java.version>11</java.version>
+		<org.postgresql.version>42.2.5</org.postgresql.version>
+		<org.projectlombok.version>1.18.12</org.projectlombok.version>
 	</properties>
 
 	<dependencies>
@@ -27,7 +29,17 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>${org.postgresql.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>${org.projectlombok.version}</version>
+			<scope>provided</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>

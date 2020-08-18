@@ -1,0 +1,15 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+  datasource:
+    url: "jdbc:postgresql://localhost:5432/stac"
+    username: stac
+    password: stac
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
