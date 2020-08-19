@@ -6,10 +6,10 @@ INSERT INTO public.catalog_links (catalog_id, links_href, links_rel) VALUES ('na
 INSERT INTO public.catalog_links (catalog_id, links_href, links_rel) VALUES ('naip', 'http://data.example.org/api', 'service-desc');
 INSERT INTO public.collection(
             id, description, spatial, keywords, license, stac_extensions,
-            stac_version, title)
+            stac_version, title, citation, max_ts, min_ts)
     VALUES ('Sentinel-2', 'Sentinel-2 is a wide-swath, high-resolution, multi-spectral\nimaging mission...\n', ST_SetSRID(ST_GeomFromText('POLYGON((-180 -90, 180 -90, 180 90, -180 90, -180 -90))'),4326),
     '{copernicus,esa,eu,msi,radiance,sentinel}', 'proprietary', '{}',
-            '1.0.0', 'Sentinel-2 MSI: MultiSpectral Instrument, Level-1C');
+            '1.0.0', 'Sentinel-2 MSI: MultiSpectral Instrument, Level-1C','{"Copernicus Sentinel data [Year]"}','2020-06-22 19:10:25', '2016-06-22 19:10:25');
 
 
 INSERT INTO public.collections(

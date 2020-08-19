@@ -47,7 +47,8 @@ public class Collection {
     private Set<Provider> providers;
     @Embedded
     private Extent extent;
-   // private Summaries summaries;
+    @Embedded
+    private Summaries summaries;
     @ManyToMany(fetch= FetchType.EAGER)
     private Set<Link> links;
 
