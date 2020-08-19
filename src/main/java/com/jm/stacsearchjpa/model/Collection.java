@@ -4,9 +4,11 @@ import com.vladmihalcea.hibernate.type.array.ListArrayType;
 import lombok.Data;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
+import org.locationtech.jts.geom.Polygon;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -43,11 +45,12 @@ public class Collection {
     private List<String> keywords;
     @ManyToMany(fetch= FetchType.EAGER)
     private Set<Provider> providers;
-    @OneToOne
-    @MapsId
+    @Embedded
     private Extent extent;
    // private Summaries summaries;
     @ManyToMany(fetch= FetchType.EAGER)
     private Set<Link> links;
+
+
 
 }

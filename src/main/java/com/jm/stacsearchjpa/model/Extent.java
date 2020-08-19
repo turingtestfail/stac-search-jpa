@@ -1,17 +1,17 @@
 package com.jm.stacsearchjpa.model;
 
-import lombok.Data;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.jm.stacsearchjpa.util.BboxJsonSerializer;
+import org.hibernate.annotations.Type;
 import org.locationtech.jts.geom.Polygon;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.Embeddable;
 
-@Entity
-@Data
+@Embeddable
 public class Extent {
-    @Id
-    private int id;
-    @Column(columnDefinition = "polygon")
+    @Column(columnDefinition = "geometry(Polygon,4326)")
+    @JsonSerialize(using= BboxJsonSerializer.class)
     private Polygon spatial;
+
 }

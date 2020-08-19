@@ -8,8 +8,15 @@ spring:
     url: "jdbc:postgresql://localhost:5432/stac"
     username: stac
     password: stac
+  jackson:
+    visibility.field: any #needed so that embedded jpa class fields are picked up by Jackson despite lacking specific getters and setters
+    visibility.getter: none
+    visibility.setter: none
+    visibility.is-getter: none
+    serialization.FAIL_ON_EMPTY_BEANS: false
 logging:
   level:
     org:
       hibernate:
         SQL: DEBUG
+
