@@ -5,12 +5,16 @@ import lombok.Data;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -38,10 +42,12 @@ public class Collection {
     )
     private List<String> keywords;
     @ManyToMany(fetch= FetchType.EAGER)
-    private List<Provider> providers;
+    private Set<Provider> providers;
+    @OneToOne
+    @MapsId
     private Extent extent;
-    private Summaries summaries;
+   // private Summaries summaries;
     @ManyToMany(fetch= FetchType.EAGER)
-    private List<Link> links;
+    private Set<Link> links;
 
 }
