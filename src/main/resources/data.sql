@@ -35,3 +35,5 @@ INSERT INTO public.collection_bands (collection_id, bands_name) VALUES ('Sentine
 INSERT INTO public.collection_bands (collection_id, bands_name) VALUES ('Sentinel-2', 'B3');
 INSERT INTO public.collection_bands (collection_id, bands_name) VALUES ('Sentinel-2', 'B4');
 INSERT INTO public.collection_bands (collection_id, bands_name) VALUES ('Sentinel-2', 'B5');
+
+INSERT INTO public.conforms_to (conformsto) VALUES ('{http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/core,http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/oas30,http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/html,http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/geojson}');
