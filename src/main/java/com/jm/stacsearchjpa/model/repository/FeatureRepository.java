@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface FeatureRepository extends JpaRepository<Feature,String> {
     List<Feature> findAllByCollection_Id(String collectionId);
+    Feature findByCollection_IdAndId(String collectionId,String id);
 }

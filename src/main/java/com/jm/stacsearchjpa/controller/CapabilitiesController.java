@@ -74,6 +74,10 @@ public class CapabilitiesController {
         return featureCollection;
     }
 
+    @GetMapping("/collections/{collectionId}/items/{featureId}")
+    public Feature featureById(@PathVariable String collectionId, @PathVariable String featureId){
+        return featureRepository.findByCollection_IdAndId(collectionId,featureId);
+    }
     /**
      * Not sure what to do hear, so currently hard coded example
      * Maybe detect host to create self links?
