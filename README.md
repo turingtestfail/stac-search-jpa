@@ -14,7 +14,9 @@ Implemented Endpoints:
 * /collections/{collectionId}/items
 * /collections/{collectionId}/items/{featureId}
 * /search
-* /filter?cql=  (CQL is not officially part of the STAC API standard yet, but I hear it is coming soon)
+* /filter?cql=  (CQL is not officially part of the STAC API standard yet, but I hear it is coming soon.  Note that this implementation is PostgreSQL specific and will have to be removed for other databases)
+
+After you use JPA to create the tables you can load sample data from the [data.sql](https://github.com/turingtestfail/stac-search-jpa/blob/master/src/main/resources/data.sql)
 
 To Be Done
 1.  Add support for pagination via the STAC limit parameter.
