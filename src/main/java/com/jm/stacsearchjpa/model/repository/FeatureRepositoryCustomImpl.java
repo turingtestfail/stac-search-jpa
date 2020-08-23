@@ -16,8 +16,11 @@ public class FeatureRepositoryCustomImpl implements  FeatureRepositoryCustom{
     }
 
     @Override
-    public List<Feature> stacSearch(Geometry geometry, String datetime, List<String> ids, List<String> collections) {
+    public List<Feature> stacSearch(Geometry bbox, Geometry geometry, String datetime, List<String> ids, List<String> collections) {
         String jql = "select f from Feature f where 1=1 ";
+        if(bbox!=null){
+            jql = jql + "AND intersects(f.bbox, :bbox) = true ";
+        }
         if(geometry!=null){
             jql = jql + "AND intersects(f.geometry, :geometry) = true ";
         }
@@ -32,6 +35,9 @@ public class FeatureRepositoryCustomImpl implements  FeatureRepositoryCustom{
             jql = jql + "AND f.collection.id IN :collections ";
         }
         Query query = em.createQuery(jql);
+        if(geometry!=null) {
+            query.setParameter("bbox", bbox);
+        }
         if(geometry!=null) {
             query.setParameter("geometry", geometry);
         }
