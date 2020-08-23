@@ -73,11 +73,21 @@
             <version>24-SNAPSHOT</version>
         </dependency>
 		<dependency>
+			<groupId>org.geotools</groupId>
+			<artifactId>gt-cql</artifactId>
+			<version>24-SNAPSHOT</version>
+		</dependency>
+		<dependency>
 			<groupId>org.wololo</groupId>
 			<artifactId>jts2geojson</artifactId>
 			<version>0.14.1</version>
 		</dependency>
-    </dependencies>
+		<dependency>
+			<groupId>org.geotools.jdbc</groupId>
+			<artifactId>gt-jdbc-postgis</artifactId>
+			<version>24-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
 	<repositories>
 	<repository>
 		<id>OSGEO GeoTools repo</id>

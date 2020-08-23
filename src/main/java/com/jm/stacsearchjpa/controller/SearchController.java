@@ -4,6 +4,8 @@ import com.jm.stacsearchjpa.model.Feature;
 import com.jm.stacsearchjpa.model.FeatureCollection;
 import com.jm.stacsearchjpa.model.StacSearch;
 import com.jm.stacsearchjpa.model.repository.FeatureRepository;
+import org.geotools.data.jdbc.FilterToSQLException;
+import org.geotools.filter.text.cql2.CQLException;
 import org.geotools.geometry.jts.JTSFactoryFinder;
 import org.geotools.referencing.CRS;
 import org.locationtech.jts.geom.Coordinate;
@@ -74,6 +76,20 @@ public class SearchController {
         //featureCollection.setLinks(populateFeatureCollectionNextLink(collectionId));
         return featureCollection;
 
+    }
+
+    @GetMapping("/filter")
+    public FeatureCollection cqlFilterGet(@RequestParam String cql) throws FilterToSQLException, CQLException {
+        FeatureCollection featureCollection = new FeatureCollection();
+
+        List<Feature> features = featureRepository.cqlSearch(cql);
+        featureCollection.setFeatures(features);
+        featureCollection.setType("FeatureCollection");
+        featureCollection.setTimeStamp(new Date());
+        featureCollection.setNumberMatched(features.size());
+        featureCollection.setNumberReturned(features.size());
+        //featureCollection.setLinks(populateFeatureCollectionNextLink(collectionId));
+        return featureCollection;
     }
 
     private Coordinate[] coordinatesFromBbox(double[] bbox) {

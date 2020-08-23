@@ -1,18 +1,24 @@
 package com.jm.stacsearchjpa.model.repository;
 
 import com.jm.stacsearchjpa.model.Feature;
+import org.geotools.data.jdbc.FilterToSQLException;
+import org.geotools.data.postgis.PostgisFilterToSQL;
+import org.geotools.filter.text.cql2.CQLException;
+import org.geotools.filter.text.ecql.ECQL;
 import org.locationtech.jts.geom.Geometry;
+import org.opengis.filter.Filter;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import java.util.Date;
 import java.util.List;
 
 public class FeatureRepositoryCustomImpl implements  FeatureRepositoryCustom{
     private final EntityManager em;
+    private final PostgisFilterToSQL postgisFilterToSQL;
 
-    public FeatureRepositoryCustomImpl(EntityManager em){
+    public FeatureRepositoryCustomImpl(EntityManager em, PostgisFilterToSQL postgisFilterToSQL){
         this.em=em;
+        this.postgisFilterToSQL = postgisFilterToSQL;
     }
 
     @Override
@@ -49,6 +55,21 @@ public class FeatureRepositoryCustomImpl implements  FeatureRepositoryCustom{
         }
 
         return query.getResultList();
+    }
+
+    @Override
+    public List<Feature> cqlSearch(String cql) throws CQLException, FilterToSQLException {
+        String fragment = cqlSearchFragment(cql);
+        String sql = "select f from Feature f " + fragment;
+        Query query = em.createQuery(sql);
+        return query.getResultList();
+    }
+
+
+    public String cqlSearchFragment(String cql) throws CQLException, FilterToSQLException {
+        Filter filter = ECQL.toFilter(cql);
+        String sqlFrag = postgisFilterToSQL.encodeToString(filter);
+        return sqlFrag;
     }
 
     private String rFC3339ToSQLFragment(String datetime) {
