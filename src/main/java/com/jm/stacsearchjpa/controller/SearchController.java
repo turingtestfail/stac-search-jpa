@@ -32,7 +32,7 @@ public class SearchController {
 
         Polygon polygonFromCoordinates = geometryFactory.createPolygon(coordinatesFromBbox(bbox));
         polygonFromCoordinates.setSRID(4326);
-        List<Feature> features = featureRepository.stacSearch(polygonFromCoordinates,null,
+        List<Feature> features = featureRepository.stacSearch(polygonFromCoordinates,datetime,
                 null,null);
         featureCollection.setFeatures(features);
         featureCollection.setType("FeatureCollection");

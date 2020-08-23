@@ -29,6 +29,7 @@ public class FeatureRepositoryCustomImpl implements  FeatureRepositoryCustom{
         if(geometry!=null) {
             query.setParameter("geometry", geometry);
         }
+
         return query.getResultList();
     }
 
@@ -36,15 +37,15 @@ public class FeatureRepositoryCustomImpl implements  FeatureRepositoryCustom{
         String[]dateelements = datetime.split("/");
         if(dateelements.length==1){
             //no slash so looking for exact match
-            return "f.properties.datetime="+dateelements[0];
-        }else if(dateelements.length==1){
+            return "f.properties.datetime='"+dateelements[0] + "' ";
+        }else if(dateelements.length==2){
             if(!dateelements[0].contains("..")&&!dateelements[1].contains("..")){
                 //range with two timestamps
-                return "f.properties.datetime between "+dateelements[0]+" and "+dateelements[1] + " ";
+                return "f.properties.datetime between '"+dateelements[0]+"' and '"+dateelements[1] + "' ";
             }else if(dateelements[0].contains("..")){
-                return "f.properties.datetime <= " + dateelements[1] + " ";
+                return "f.properties.datetime <= '" + dateelements[1] + "' ";
             }else {
-                return "f.properties.datetime >= " + dateelements[0] + " ";
+                return "f.properties.datetime >= '" + dateelements[0] + "' ";
             }
         }else{
             throw new IllegalArgumentException("datetime not parseable");
