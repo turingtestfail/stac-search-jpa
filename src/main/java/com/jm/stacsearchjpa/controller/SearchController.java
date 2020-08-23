@@ -11,7 +11,6 @@ import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Polygon;
 import org.opengis.referencing.FactoryException;
-import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,13 +25,15 @@ public class SearchController {
         this.featureRepository=featureRepository;
     }
     @GetMapping("/search")
-    public FeatureCollection searchByGet(@RequestParam(required = false)double[]bbox) throws FactoryException {
+    public FeatureCollection searchByGet(@RequestParam(required = false)double[]bbox,
+                                         @RequestParam(required = false)String datetime) throws FactoryException {
         FeatureCollection featureCollection = new FeatureCollection();
         GeometryFactory geometryFactory = JTSFactoryFinder.getGeometryFactory( null );
 
         Polygon polygonFromCoordinates = geometryFactory.createPolygon(coordinatesFromBbox(bbox));
         polygonFromCoordinates.setSRID(4326);
-        List<Feature> features = featureRepository.customByGeometry(polygonFromCoordinates);
+        List<Feature> features = featureRepository.stacSearch(polygonFromCoordinates,null,
+                null,null);
         featureCollection.setFeatures(features);
         featureCollection.setType("FeatureCollection");
         featureCollection.setTimeStamp(new Date());

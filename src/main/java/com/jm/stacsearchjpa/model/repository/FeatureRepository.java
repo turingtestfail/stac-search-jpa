@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface FeatureRepository extends JpaRepository<Feature,String> {
+public interface FeatureRepository extends JpaRepository<Feature,String>,FeatureRepositoryCustom {
     List<Feature> findAllByCollection_Id(String collectionId);
     Feature findByCollection_IdAndId(String collectionId,String id);
     @Query("select f from Feature f where intersects(f.geometry, ?1) = true")
