@@ -25,9 +25,21 @@ public class FeatureRepositoryCustomImpl implements  FeatureRepositoryCustom{
             String datetimeSQL = rFC3339ToSQLFragment(datetime);
             jql = jql + "AND " + datetimeSQL + " ";
         }
+        if(ids!=null){
+            jql = jql + "AND f.id IN :ids ";
+        }
+        if(collections!=null){
+            jql = jql + "AND f.collection.id IN :collections ";
+        }
         Query query = em.createQuery(jql);
         if(geometry!=null) {
             query.setParameter("geometry", geometry);
+        }
+        if(ids!=null){
+            query.setParameter("ids",ids);
+        }
+        if(collections!=null){
+            query.setParameter("collections",collections);
         }
 
         return query.getResultList();

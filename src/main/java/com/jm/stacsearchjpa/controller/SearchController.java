@@ -26,14 +26,16 @@ public class SearchController {
     }
     @GetMapping("/search")
     public FeatureCollection searchByGet(@RequestParam(required = false)double[]bbox,
-                                         @RequestParam(required = false)String datetime) throws FactoryException {
+                                         @RequestParam(required = false)String datetime,
+                                         @RequestParam(required = false)List<String>ids,
+                                         @RequestParam(required = false)List<String>collections) throws FactoryException {
         FeatureCollection featureCollection = new FeatureCollection();
         GeometryFactory geometryFactory = JTSFactoryFinder.getGeometryFactory( null );
 
         Polygon polygonFromCoordinates = geometryFactory.createPolygon(coordinatesFromBbox(bbox));
         polygonFromCoordinates.setSRID(4326);
         List<Feature> features = featureRepository.stacSearch(polygonFromCoordinates,datetime,
-                null,null);
+                ids,collections);
         featureCollection.setFeatures(features);
         featureCollection.setType("FeatureCollection");
         featureCollection.setTimeStamp(new Date());
