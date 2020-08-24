@@ -24,3 +24,5 @@ To Be Done
 3.  Create entity creation and editing end points.
     1.  React (or other JS Framework) front end to aid in entity creation.
     2.  GDAL and OSSIM integration to populate entities.
+4.  Contribute back to GeoTools to bring cql support up to current WFS CQL state?
+
