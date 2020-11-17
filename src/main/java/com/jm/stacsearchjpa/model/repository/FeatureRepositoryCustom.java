@@ -14,7 +14,7 @@ public interface FeatureRepositoryCustom {
                              @Param("bbox") Geometry bbox,@Param("geometry") Geometry geometry,
                              @Param("datetime") String datetime,
                                              @Param("ids") List<String> ids,
-                                             @Param("collections")List<String>collections);
+                                             @Param("collections")List<String>collections) throws FilterToSQLException, CQLException;
 
     List<Feature>cqlSearch(String cql) throws CQLException, FilterToSQLException;
 }

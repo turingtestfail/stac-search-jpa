@@ -47,8 +47,9 @@ public class SearchController {
             polygonFromCoordinates.setSRID(4326);
             features = featureRepository.stacSearch(query, polygonFromCoordinates, null, datetime,
                     ids, collections);
-            featureCollection.setFeatures(features);
+
         }
+        featureCollection.setFeatures(features);
         featureCollection.setType("FeatureCollection");
         featureCollection.setTimeStamp(new Date());
         featureCollection.setNumberMatched(features.size());
@@ -59,7 +60,8 @@ public class SearchController {
     }
 
     @PostMapping("/search")
-    public FeatureCollection searchByPost(@RequestBody StacSearch stacSearch) throws FactoryException {
+    public FeatureCollection searchByPost(@RequestBody StacSearch stacSearch) throws FactoryException,
+            CQLException, FilterToSQLException {
         FeatureCollection featureCollection = new FeatureCollection();
         GeometryFactory geometryFactory = JTSFactoryFinder.getGeometryFactory( null );
         Polygon bboxPolygonFromCoordinates=null;
