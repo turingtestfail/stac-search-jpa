@@ -10,7 +10,8 @@ import java.util.Date;
 import java.util.List;
 
 public interface FeatureRepositoryCustom {
-    List<Feature> stacSearch(@Param("bbox") Geometry bbox,@Param("geometry") Geometry geometry,
+    List<Feature> stacSearch(@Param("query")String query,
+                             @Param("bbox") Geometry bbox,@Param("geometry") Geometry geometry,
                              @Param("datetime") String datetime,
                                              @Param("ids") List<String> ids,
                                              @Param("collections")List<String>collections);

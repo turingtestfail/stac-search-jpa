@@ -3,7 +3,9 @@ package com.jm.stacsearchjpa.model.repository;
 import com.jm.stacsearchjpa.model.Feature;
 import org.geotools.data.jdbc.FilterToSQLException;
 import org.geotools.data.postgis.PostgisFilterToSQL;
+import org.geotools.filter.FilterFactoryImpl;
 import org.geotools.filter.text.cql2.CQLException;
+import org.geotools.filter.text.cqljson.CQLJsonCompiler;
 import org.geotools.filter.text.ecql.ECQL;
 import org.locationtech.jts.geom.Geometry;
 import org.opengis.filter.Filter;
@@ -22,7 +24,9 @@ public class FeatureRepositoryCustomImpl implements  FeatureRepositoryCustom{
     }
 
     @Override
-    public List<Feature> stacSearch(Geometry bbox, Geometry geometry, String datetime, List<String> ids, List<String> collections) {
+    public List<Feature> stacSearch(String queryJson,
+                                    Geometry bbox, Geometry geometry, String datetime,
+                                    List<String> ids, List<String> collections) {
         String jql = "select f from Feature f where 1=1 ";
         if(bbox!=null){
             jql = jql + "AND intersects(f.bbox, :bbox) = true ";
@@ -67,9 +71,26 @@ public class FeatureRepositoryCustomImpl implements  FeatureRepositoryCustom{
 
 
     public String cqlSearchFragment(String cql) throws CQLException, FilterToSQLException {
-        Filter filter = ECQL.toFilter(cql);
+        Filter filter = null;
+        if(isJSON(cql)){
+            CQLJsonCompiler cqlJsonCompiler =
+                    new CQLJsonCompiler(cql, new FilterFactoryImpl());
+            cqlJsonCompiler.compileFilter();
+            filter = cqlJsonCompiler.getFilter();
+        }else {
+            filter = ECQL.toFilter(cql);
+        }
         String sqlFrag = postgisFilterToSQL.encodeToString(filter);
         return sqlFrag;
+    }
+
+    private boolean isJSON(String candidate){
+        boolean json = false;
+        if( (candidate.startsWith( "[" ) && candidate.endsWith( "]" ))
+                || (candidate.startsWith( "{" ) && candidate.endsWith( "}" ))){
+            return true;
+        }
+        return json;
     }
 
     private String rFC3339ToSQLFragment(String datetime) {

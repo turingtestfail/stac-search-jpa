@@ -33,15 +33,22 @@ public class SearchController {
     public FeatureCollection searchByGet(@RequestParam(required = false)double[]bbox,
                                          @RequestParam(required = false)String datetime,
                                          @RequestParam(required = false)List<String>ids,
-                                         @RequestParam(required = false)List<String>collections) throws FactoryException {
+                                         @RequestParam(required = false)List<String>collections,
+                                         @RequestParam(required = false)String query) throws FactoryException,
+            FilterToSQLException, CQLException {
         FeatureCollection featureCollection = new FeatureCollection();
-        GeometryFactory geometryFactory = JTSFactoryFinder.getGeometryFactory( null );
+        List<Feature> features = null;
+        if(query!=null){
+            features = featureRepository.cqlSearch(query);
+        }else {
+            GeometryFactory geometryFactory = JTSFactoryFinder.getGeometryFactory(null);
 
-        Polygon polygonFromCoordinates = geometryFactory.createPolygon(coordinatesFromBbox(bbox));
-        polygonFromCoordinates.setSRID(4326);
-        List<Feature> features = featureRepository.stacSearch(polygonFromCoordinates,null,datetime,
-                ids,collections);
-        featureCollection.setFeatures(features);
+            Polygon polygonFromCoordinates = geometryFactory.createPolygon(coordinatesFromBbox(bbox));
+            polygonFromCoordinates.setSRID(4326);
+            features = featureRepository.stacSearch(query, polygonFromCoordinates, null, datetime,
+                    ids, collections);
+            featureCollection.setFeatures(features);
+        }
         featureCollection.setType("FeatureCollection");
         featureCollection.setTimeStamp(new Date());
         featureCollection.setNumberMatched(features.size());
@@ -65,7 +72,7 @@ public class SearchController {
             geomFromGeoJSON = stacSearch.getIntersects();
             geomFromGeoJSON.setSRID(4326);
         }
-        List<Feature> features = featureRepository.stacSearch(bboxPolygonFromCoordinates,geomFromGeoJSON,
+        List<Feature> features = featureRepository.stacSearch(null,bboxPolygonFromCoordinates,geomFromGeoJSON,
                 stacSearch.getDatetime(),
                 stacSearch.getIds(),stacSearch.getCollections());
         featureCollection.setFeatures(features);
